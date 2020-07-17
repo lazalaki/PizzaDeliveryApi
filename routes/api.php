@@ -19,5 +19,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
+//AUTH
 Route::post('/auth/register', 'AuthController@register');
 Route::post('/auth/login', 'AuthController@login');
+
+//FOOD
+Route::get('/food', 'FoodsController@getFood');
