@@ -25,3 +25,13 @@ Route::post('/auth/login', 'AuthController@login');
 
 //FOOD
 Route::get('/food', 'FoodsController@getFood');
+
+//ORDERS
+Route::post('/users/{userId}/orders', 'OrdersController@setOrders');
+Route::get('/users/{userId}/orders', 'OrdersController@getAllOrders');
+Route::get('/users/{userId}/orders/last', 'OrdersController@getLastOrder');
+Route::patch('/users/{userId}/orders/{orderId}', 'OrdersController@completedOrder');
+
+//ORDER ITEM
+Route::post('/users/{userId}/orders/{orderId}/order-item', 'OrdersController@setOrderItem');
+Route::delete('/users/{userId}/orders/{orderId}/order-item/{order_item_id}', 'OrdersController@deleteOrderItem');

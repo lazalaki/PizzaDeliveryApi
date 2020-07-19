@@ -24,23 +24,21 @@ class AuthController extends Controller
             $this->userService->register($request);
             return response()->json([], 201);
         } catch (Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()],400);
+            return response()->json(['message' => $exception->getMessage()],400);
         }
     }
 
 
     public function login(Request $request)
     {
-        // try {
-        //     $loginResponse = $this->userService->login($request->email, $request->password);
-        //     return $loginResponse;
-        // } catch (Exception $exception) {
-        //     return response()->json(['error' => $exception->getMessage()],400);
-        // }
+        try {
+            $credientals = $request->only('password', 'email');
+            $loginResponse = $this->userService->login($credientals);
+            return $loginResponse;
+        } catch (Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()],400);
+        }
 
-        $credientals = $request->only('password', 'email');
-
-        return $this->userService->login($credientals);
     }
 
 

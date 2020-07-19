@@ -21,7 +21,7 @@ class FoodsController extends Controller
         try {
             return $this->foodService->getFood();
         } catch(Exception $exception) {
-            return back()->withErrors(['error' => $exception->getMessage()], 400);
+            return response()->json(['error' => $exception->getMessage()], 400);
         }
     }
 }
