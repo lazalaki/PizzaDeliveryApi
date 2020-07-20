@@ -27,11 +27,11 @@ Route::post('/auth/login', 'AuthController@login');
 Route::get('/food', 'FoodsController@getFood');
 
 //ORDERS
-Route::post('/users/{userId}/orders', 'OrdersController@setOrders');
-Route::get('/users/{userId}/orders', 'OrdersController@getAllOrders');
+Route::post('/users/{userId}/orders', 'OrdersController@createEmptyOrder');
+Route::get('/users/{userId}/orders', 'OrdersController@getHistory');
 Route::get('/users/{userId}/orders/last', 'OrdersController@getLastOrder');
 Route::patch('/users/{userId}/orders/{orderId}', 'OrdersController@completedOrder');
 
 //ORDER ITEM
-Route::post('/users/{userId}/orders/{orderId}/order-item', 'OrdersController@setOrderItem');
+Route::post('/users/{userId}/orders/{orderId}/order-item', 'OrdersController@createOrderItem');
 Route::delete('/users/{userId}/orders/{orderId}/order-item/{order_item_id}', 'OrdersController@deleteOrderItem');

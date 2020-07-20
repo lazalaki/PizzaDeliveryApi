@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderItemRequest;
 use App\Services\OrderService;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,9 +15,9 @@ class OrdersController extends Controller
         $this->orderService = $orderService;
     }
 
-    public function setOrders(Request $request, $userId)
+    public function createEmptyOrder($userId)
     {
-        return $this->orderService->setOrder($request, $userId);
+        return $this->orderService->createEmptyOrder($userId);
     }
 
     public function getLastOrder($userId)
@@ -24,9 +25,9 @@ class OrdersController extends Controller
         return $this->orderService->getLastOrder($userId);
     }
 
-    public function setOrderItem($foodId, $orderId)
+    public function createOrderItem(OrderItemRequest $request, $userId, $orderId)
     {
-        return $this->orderService->setOrderItem($foodId, $orderId);
+        return $this->orderService->addOrderItem($request['foodId'], $orderId);
     }
 
     public function deleteOrderItem(Request $request)
@@ -36,9 +37,9 @@ class OrdersController extends Controller
        return $this->orderService->deleteOrderItem($orderId);
     }
 
-    public function getAllOrders($userId)
+    public function getHistory($userId)
     {
-        return $this->orderService->getOrders($userId);
+        return $this->orderService->getHistory($userId);
     }
 
     public function completedOrder(Request $request)

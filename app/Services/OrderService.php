@@ -2,13 +2,14 @@
 
 namespace App\Services;
 
+use App\Http\Requests\OrderItemRequest;
 use App\Order;
 use App\OrderItem;
 use Exception;
 
 class OrderService {
 
-    public function setOrder($userId)
+    public function createEmptyOrder($userId)
     {   
         $lastOrder = $this->getLastStartedOrder($userId);
         if($lastOrder) {
@@ -29,7 +30,7 @@ class OrderService {
 
     public function getLastStartedOrder($userId)
     {
-        $order = Order::where('user_id', $userId)->where('state', 'started')->first();
+        $order = Order::where('user_id', $userId)->where('state', 'started')->with('order_items.food')->first();
 
         if($order) {
             return $order;
@@ -47,12 +48,13 @@ class OrderService {
         }
     }
 
-    public function setOrderItem($foodId, $orderId)
+    public function addOrderItem($foodId, $orderId)
     {
         $orderItem = new OrderItem();
-
         $orderItem->food_id = $foodId;
         $orderItem->order_id = $orderId;
+        
+        
 
         try {
             $orderItem->save();
@@ -74,10 +76,10 @@ class OrderService {
         }
     }
 
-    public function getOrders($userId)
+    public function getHistory($userId)
     {
-        $orders = Order::where('user_id', $userId)->with('order_items')->latest()->get();
-
+        $orders = Order::where('user_id', $userId)->where('state', 'completed')->with('order_items.food')->latest()->get();
+        
         try {
             return response()->json(['orders' => $orders]);
         } catch(Exception $exception) {
